@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "giphy favorite quickly",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "quick favorite ",
+    "description": "The description of the application"
+  }
+}
