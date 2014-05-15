@@ -9,5 +9,8 @@
   height: 40px;
   float: left;
   background-repeat: no-repeat;
-  background-image: url("../../img/heart_white.png");
+  background-image: url("/static/img/heart_white.png");
+}
+.extend-favorite-icon.selected{
+  background-image: url("/static/img/heart_red.png");
 }

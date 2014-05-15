@@ -11,20 +11,43 @@ var initialItem = function($item){
   }
   var $gif = $item.find("a.gif")
   var data = $gif.data("id")
-  var $item = createFavoriteLink()
-  $gif.append($item)
   $item.addClass("extended")
-  /*$item.on('click', function(){
-    $.post("/favorites/" + data, function(){
+
+  $.get("/favorites/" + data, function(d){
+    var $fav = createFavoriteLink()
+
+
+    syncIcon($fav, d.result)
+
+    $item.on("mouseover", function(){
+      $fav.show()
     })
-  })*/
+    $item.on("mouseout mouseleave", function(){
+      $fav.hide()
+    })
+
+    $fav.on('click', function(ev){
+      $.post("/favorites/" + data, function(d){
+        syncIcon($fav, d.result)
+      })
+      ev.stopPropagation()
+      return false
+    })
+    $gif.append($fav)
+
+  })
 }
+
+var syncIcon = function($fav, result){
+  $fav.find(".extend-favorite-icon").toggleClass("selected", result.has_favorited)
+}
+
 // create a.class div.facorite-icon
 var createFavoriteLink = function(){
+  var $fav = $("<a>").addClass("extend-favorite")
   var $div = $("<div>").addClass("extend-favorite-icon")
-  var $a = $("<a>").addClass("extend-favorite")
-  $a.append($div)
-  return $a
+  $fav.append($div)
+  return $fav
 }
 
 // endpoint
