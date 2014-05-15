@@ -1,0 +1,13 @@
+
+.extend-favorite{
+  position:absolute;
+  top : 0;
+  right : 0;
+}
+.extend-favorite-icon{
+  width: 44px;
+  height: 40px;
+  float: left;
+  background-repeat: no-repeat;
+  background-image: url("../../img/heart_white.png");
+}

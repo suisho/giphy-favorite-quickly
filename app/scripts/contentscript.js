@@ -1,35 +1,31 @@
 'use strict';
-document.onreadystatechange = function () {
-  var execute = function(){
-    var listItem = $(".hoverable li")
-    listItem.forEach(function(item){
-      initialItem(item)
-    })
-
-
-  }
-
-  var initialItem = function($item){
-    var $gif = $item.find("a.gif")
-    var data = $gif.data("id")
-    var $item = createFavoriteLink()
-    $gif.append($item)
-    /*$item.on('click', function(){
-      $.post("/favorites/" + data, function(){
-      })
-    })*/
-  }
-  // create a.class div.facorite-icon
-  var createFavoriteLink = function(){
-    var $div = $("<div>").addClass("favorite-icon")
-    var $a = $("<a>").addClass("favorite")
-    $a.append($div)
-    return $a
-  }
-  
-  // endpoint
-  if (document.readyState == "complete") {
-    execute();
-  }
-
+var execute = function(){
+  $("ul.gifs").on('mouseover', ".hoverable li", function(ev){
+    initialItem($(ev.currentTarget))
+  })
 }
+
+var initialItem = function($item){
+  if($item.hasClass("extended")){
+    return
+  }
+  var $gif = $item.find("a.gif")
+  var data = $gif.data("id")
+  var $item = createFavoriteLink()
+  $gif.append($item)
+  $item.addClass("extended")
+  /*$item.on('click', function(){
+    $.post("/favorites/" + data, function(){
+    })
+  })*/
+}
+// create a.class div.facorite-icon
+var createFavoriteLink = function(){
+  var $div = $("<div>").addClass("extend-favorite-icon")
+  var $a = $("<a>").addClass("extend-favorite")
+  $a.append($div)
+  return $a
+}
+
+// endpoint
+execute();
