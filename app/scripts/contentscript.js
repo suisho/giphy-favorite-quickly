@@ -12,34 +12,41 @@ var initialItem = function($item){
   var $gif = $item.find("a.gif")
   var data = $gif.data("id")
   $item.addClass("extended")
+  var isMouseOver = true;
+  var $fav = createFavoriteLink()
+
+  $item.on("mouseover", function(){
+    $(".extend-favorite:visible").hide()
+    $fav.show()
+    isMouseOver = true;
+  })
+  $item.on("mouseout", function(){
+    isMouseOver = false;
+  })
 
   $.get("/favorites/" + data, function(d){
-    var $fav = createFavoriteLink()
+    syncIcon($fav, d.result.has_favorited)
 
-
-    syncIcon($fav, d.result)
-
-    $item.on("mouseover", function(){
-      $fav.show()
-    })
-    $item.on("mouseout mouseleave", function(){
-      $fav.hide()
-    })
 
     $fav.on('click', function(ev){
+      syncIcon($fav)
+
       $.post("/favorites/" + data, function(d){
-        syncIcon($fav, d.result)
+        syncIcon($fav, d.result.has_favorited)
       })
       ev.stopPropagation()
       return false
     })
     $gif.append($fav)
-
+    if(!isMouseOver){
+      $fav.hide()
+    }
   })
 }
 
-var syncIcon = function($fav, result){
-  $fav.find(".extend-favorite-icon").toggleClass("selected", result.has_favorited)
+var syncIcon = function($fav, has_favorited){
+  var $icon = $fav.find(".extend-favorite-icon")
+  $icon.toggleClass("selected", has_favorited)
 }
 
 // create a.class div.facorite-icon
